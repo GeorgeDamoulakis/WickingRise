@@ -1,0 +1,72 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+def CropANDThres(image):
+    x = 428  # left
+    y = 120  # up
+    h = 500  # down
+    w = 30  # width
+    img = image[y:y + h, x:x + w]
+
+    ret, th1 = cv2.threshold(img, 40, 250, cv2.THRESH_BINARY)
+    kernel = np.ones((4, 4), np.uint8)
+    erosion = cv2.erode(th1, kernel, iterations=5)
+    dilation = cv2.dilate(erosion, kernel, iterations=3)
+
+    total = np.hstack((img, dilation))
+
+    # f = plt.figure()
+    # f.add_subplot(1, 2, 1)
+    # plt.imshow(img)
+    # f.add_subplot(1, 2, 2)
+    # plt.imshow(dilation)
+    # plt.show(block=True)
+    # 0.8 mm = 30 px --> 1 px = 37.5
+    start_point = (0, 37)
+    end_point = (60, 37)
+    color = (2, 205, 120)
+    thickness = 1
+    total_line1 = cv2.line(total, start_point, end_point, color, thickness)
+    total_line2 = cv2.line(total_line1, (0, 75), (60, 75), color, thickness)
+    total_line3 = cv2.line(total_line2, (0, 112), (60, 112), color, thickness)
+    total_line4 = cv2.line(total_line3, (0, 149), (60, 149), color, thickness)
+    total_line5 = cv2.line(total_line4, (0, 186), (60, 186), color, thickness)
+    total_line6 = cv2.line(total_line5, (0, 223), (60, 223), color, thickness)
+    total_line7 = cv2.line(total_line6, (0, 260), (60, 260), color, thickness)
+    total_line8 = cv2.line(total_line7, (0, 297), (60, 297), color, thickness)
+    total_line9 = cv2.line(total_line8, (0, 334), (60, 334), color, thickness)
+    total_line10 = cv2.line(total_line9, (0, 371), (60, 371), color, thickness)
+    total_line11 = cv2.line(total_line10, (0, 408), (60, 408), color, thickness)
+    total_line12 = cv2.line(total_line11, (0, 445), (60, 445), color, thickness)
+    total_line13 = cv2.line(total_line12, (0, 482), (60, 482), color, thickness)
+
+    cv2.putText(total_line13, "12", (40,75), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (209, 80, 0, 255), 1)
+    cv2.putText(total_line13, "9", (40,186), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (209, 80, 0, 255), 1)
+    cv2.putText(total_line13, "7", (40,260), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (209, 80, 0, 255), 1)
+    cv2.putText(total_line13, "4", (40,371), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (209, 80, 0, 255), 1)
+    #cv2.imshow('image', total_line13)
+    #cv2.waitKey()
+    #cv2.destroyAllWindows()
+    return total_line13
+
+videoFile = ("/Volumes/FotoMacOs/7_Mohamad_Wicking/mesh 40 single 1.cine")
+imagesFolder = "/Volumes/FotoMacOs/7_Mohamad_Wicking/mesh40single1splits2"
+
+cap = cv2.VideoCapture(videoFile)
+frameRate = cap.get(5) #frame rate
+print("the frame rate is", frameRate)
+
+while(cap.isOpened()):
+    frameId = cap.get(1) #current frame number
+    ret, frame = cap.read()
+    print(frameId)
+    if (ret != True):
+        break
+    if (frameId % frameRate == 0):
+        
+
+        filename = imagesFolder + "/image_" +  str(int(frameId)) + ".jpg"
+        cv2.imwrite(filename, CropANDThres(frame))
+cap.release()
+print("Done!")
