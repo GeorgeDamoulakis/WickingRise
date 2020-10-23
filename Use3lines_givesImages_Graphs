@@ -1,0 +1,61 @@
+
+
+
+
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+image = cv2.imread("/Volumes/FotoMacOs/7_Mohamad_Wicking/originalFRAMES/image_500.jpg", 0)
+
+color = (2, 205, 120)
+thickness = 3
+###### here I used the vertical lines to find the points of interest
+#total_line12 = cv2.line(image, (430, 120), (430, 640), color, thickness)
+#total_line13 = cv2.line(total_line12, (440, 120), (440, 640), color, thickness)
+#total_line14 = cv2.line(total_line13, (450, 120), (450, 640), color, thickness)
+
+horizontal_line = cv2.line(image, (0, 398), (760, 398), color, thickness)
+
+cc = []
+bb = []
+aa = []
+ii = []
+#print(image[:, 120])
+for i in range(120, 640, 1):
+    #a = image[430, i-3]
+    b = image[430, i]
+    bb.append(b)
+    ii.append(i)
+    #c = image[430, i+3]
+    #print(image[430, i], "for pixel no", i)
+
+for i in range(120, 640, 1):
+    c = image[440, i]
+    cc.append(c)
+
+for i in range(120, 640, 1):
+    a = image[450, i]
+    aa.append(a)
+
+plt.figure()
+
+plt.subplot(311)
+plt.title('Right')
+plt.plot(aa)
+plt.subplot(312)
+plt.title('Middle')
+plt.plot(cc)
+plt.subplot(313)
+plt.title('Left')
+plt.plot(bb)
+plt.show()
+
+
+cv2.imshow('image', image)
+cv2.waitKey()
+cv2.destroyAllWindows()
+
+'''
+'''
+
