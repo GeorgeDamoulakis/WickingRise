@@ -1,0 +1,44 @@
+import cv2
+
+def CropANDThres(image):
+    color = (2, 205, 120)
+    thickness = 1
+    horizontal_line_1 = cv2.line(image, (0, 100), (400, 100), color, thickness)
+    horizontal_line_2 = cv2.line(horizontal_line_1, (0, 150), (400, 150), color, thickness)
+    horizontal_line_3 = cv2.line(horizontal_line_2, (0, 200), (400, 200), color, thickness)
+    horizontal_line_4 = cv2.line(horizontal_line_3, (0, 250), (400, 250), color, thickness)
+    horizontal_line_5 = cv2.line(horizontal_line_4, (0, 300), (400, 300), color, thickness)
+    horizontal_line_6 = cv2.line(horizontal_line_5, (0, 300), (400, 300), color, thickness)
+    horizontal_line_7 = cv2.line(horizontal_line_6, (0, 350), (400, 350), color, thickness)
+    horizontal_line_8 = cv2.line(horizontal_line_6, (0, 400), (400, 400), color, thickness)
+    horizontal_line_9 = cv2.line(horizontal_line_6, (0, 450), (400, 450), color, thickness)
+    horizontal_line_10 = cv2.line(horizontal_line_6, (0, 500), (400, 500), color, thickness)
+    horizontal_line_11 = cv2.line(horizontal_line_6, (0, 550), (400, 550), color, thickness)
+    horizontal_line_12 = cv2.line(horizontal_line_6, (0, 600), (400, 600), color, thickness)
+    horizontal_line_13 = cv2.line(horizontal_line_6, (0, 650), (400, 650), color, thickness)
+
+    cv2.putText(horizontal_line_13, "1.5 cm", (300,500), cv2.FONT_HERSHEY_SIMPLEX,  1, (2, 205, 120, 255), 1)
+    cv2.putText(horizontal_line_13, "3.0 cm", (300,400), cv2.FONT_HERSHEY_SIMPLEX,  1, (2, 205, 120, 255), 1)
+    cv2.putText(horizontal_line_13, "4.5 cm", (300,300), cv2.FONT_HERSHEY_SIMPLEX,  1, (2, 205, 120, 255), 1)
+    cv2.putText(horizontal_line_13, "5.0 cm", (300,200), cv2.FONT_HERSHEY_SIMPLEX,  1, (2, 205, 120, 255), 1)
+    cv2.putText(horizontal_line_13, "6.5 cm", (300,100), cv2.FONT_HERSHEY_SIMPLEX,  1, (2, 205, 120, 255), 1)
+    return horizontal_line_13
+
+videoFile = ("D:\\wick rise gogos , 11-2-2020\\40 um 3.cine")
+imagesFolder = "D:\\wick rise gogos , 11-2-2020\\pic"
+
+cap = cv2.VideoCapture(videoFile)
+frameRate = cap.get(5) #frame rate
+print("the frame rate is", frameRate)
+
+while(cap.isOpened()):
+    frameId = cap.get(1) #current frame number
+    ret, frame = cap.read()
+    print(frameId)
+    if (ret != True):
+        break
+    if (frameId % 200 == 0):
+        filename = imagesFolder + "/image_" +  str(int(frameId)) + ".jpg"
+        cv2.imwrite(filename, CropANDThres(frame))
+cap.release()
+print("Done!")
